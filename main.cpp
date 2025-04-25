@@ -1,20 +1,42 @@
 ﻿#include <stdio.h>
-#define NOMINMAX
 #include <Windows.h>
 
-template <typename T>
-T min(T a, T b) {
-    return (a < b) ? a : b;
+int recursive_wage(int hour) {
+    if (hour == 1) {
+        return 100;
+    }
+    else {
+        return recursive_wage(hour - 1) * 2 - 50;
+    }
 }
 
 int main() {
-    int a = 10, b = 20;
-    float d = 5.5f, e = 3.3f;
+    /*SetConsoleOutputCP(65001);*/
+    int n;
+    printf("労働時間を入力してください: ");
+    scanf_s("%d", &n);
 
-    printf("より小さい整数: %d\n", min(a, b));
-    printf("より小さい浮動小数点数: %.2f\n", min(d, e));
+    int normal_total = 1072 * n;
 
-    system("pause");    
+    int recursive_total = 0;
+    for (int i = 1; i <= n; i++) {
+        recursive_total += recursive_wage(i);
+    }
+
+    printf("通常給与体系の合計給与: %d 円\n", normal_total);
+    printf("再帰給与体系の合計給与: %d 円\n", recursive_total);
+
+    if (recursive_total > normal_total) {
+        printf("再帰給与体系を選ぶ方が得です！\n");
+    }
+    else if (recursive_total < normal_total) {
+        printf("通常給与体系を選ぶ方が得です！\n");
+    }
+    else {
+        printf("両方の給与体系は同じです！\n");
+    }
+
+	system("pause");
 
     return 0;
 }
