@@ -14,7 +14,7 @@ int main() {
     printf("より小さい整数: %d\n", min(a, b));
     printf("より小さい浮動小数点数: %.2f\n", min(d, e));
 
-    system("pause");  
+    system("pause");    
 
     return 0;
 }
