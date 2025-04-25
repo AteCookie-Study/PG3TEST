@@ -1,42 +1,41 @@
 ﻿#include <stdio.h>
-#include <Windows.h>
+#include <stdlib.h>
+#include <time.h>
+#include <Windows.h> 
 
-int recursive_wage(int hour) {
-    if (hour == 1) {
-        return 100;
+typedef void (*ResultCallback)(int, int);
+
+void checkResult(int dice, int userGuess) {
+    int isEven = dice % 2 == 0 ? 1 : 0;
+
+    printf("出目は %d です。\n", dice);
+    if (userGuess == isEven) {
+        printf("正解！\n");
     }
     else {
-        return recursive_wage(hour - 1) * 2 - 50;
+        printf("不正解！\n");
     }
 }
 
+void playDiceGame(ResultCallback callback) {
+    int dice = rand() % 6 + 1;
+    int userGuess;
+
+    printf("奇数は 0、偶数は 1 を入力してください：");
+    scanf_s("%d", &userGuess);
+
+    printf("Loading...\n");
+    Sleep(3000); 
+
+    callback(dice, userGuess);
+}
+
 int main() {
-    /*SetConsoleOutputCP(65001);*/
-    int n;
-    printf("労働時間を入力してください: ");
-    scanf_s("%d", &n);
+    srand((unsigned int)time(NULL)); 
 
-    int normal_total = 1072 * n;
+    playDiceGame(checkResult);
 
-    int recursive_total = 0;
-    for (int i = 1; i <= n; i++) {
-        recursive_total += recursive_wage(i);
-    }
-
-    printf("通常給与体系の合計給与: %d 円\n", normal_total);
-    printf("再帰給与体系の合計給与: %d 円\n", recursive_total);
-
-    if (recursive_total > normal_total) {
-        printf("再帰給与体系を選ぶ方が得です！\n");
-    }
-    else if (recursive_total < normal_total) {
-        printf("通常給与体系を選ぶ方が得です！\n");
-    }
-    else {
-        printf("両方の給与体系は同じです！\n");
-    }
-
-	system("pause");
+	system("pause");  
 
     return 0;
 }
